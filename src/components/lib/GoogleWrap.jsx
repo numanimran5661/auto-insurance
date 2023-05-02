@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { GoogleApiWrapper } from 'google-maps-react';
 import RatingStars from '../utils/RatingStars';
 import { Link } from 'react-router-dom';
+import { State } from 'country-state-city';
 
 const SearchPlaces = ({ google, countryCode, stateCode, city, location }) => {
     const [places, setPlaces] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    console.log({ ...location });
+    let st = State.getStateByCodeAndCountry(stateCode, 'US')
     useEffect(() => {
         fetchData();
     }, []);
@@ -35,7 +36,7 @@ const SearchPlaces = ({ google, countryCode, stateCode, city, location }) => {
         const request = {
             location: { lat, lng },
             radius: 1000,
-            query: `car insurance in ${countryCode} ${city}`,
+            query: `car insurance in ${st.name} ${city}`,
             fields: ['name', 'geometry', 'place_id'],
             componentRestrictions: {
                 country: countryCode,
